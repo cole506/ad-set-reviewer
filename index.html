@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Mastery | Ad Set Reviewer</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0d0d0d;
+  --bg2:    #141414;
+  --bg3:    #1c1c1c;
+  --bg4:    #242424;
+  --border: #2c2c2c;
+  --text:   #f0f0f0;
+  --muted:  #6b6b6b;
+  --sub:    #a0a0a0;
+  --orange: #f97316;
+  --orange2:#ea580c;
+  --green:  #10b981;
+  --red:    #ef4444;
+  --yellow: #f59e0b;
+  --blue:   #60a5fa;
+  --purple: #a78bfa;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Layout ─────────────────────────────── */
+.shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.content {
+  flex: 1;
+  padding: 48px 52px;
+  max-width: 1160px;
+}
+
+/* ── Sidebar ────────────────────────────── */
+.logo { font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
+.logo em { color: var(--orange); font-style: normal; }
+.logo-sub { font-size: 11px; color: var(--muted); margin-top: 3px; letter-spacing: .5px; text-transform: uppercase; }
+
+.sb-rule { border: none; border-top: 1px solid var(--border); }
+
+.sb-heading {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.sb-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.sb-list li {
+  font-size: 12.5px;
+  color: var(--sub);
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+.sb-list li::before {
+  content: "–";
+  color: var(--orange);
+  font-size: 10px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Page Header ────────────────────────── */
+.page-header { margin-bottom: 36px; }
+.page-title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.page-title em { color: var(--orange); font-style: normal; }
+.page-sub { font-size: 14px; color: var(--muted); }
+
+/* ── Upload Zone ────────────────────────── */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 56px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: var(--bg2);
+  margin-bottom: 20px;
+}
+.upload-zone:hover, .upload-zone.drag { border-color: var(--orange); background: #160e04; }
+.upload-icon { font-size: 44px; margin-bottom: 14px; }
+.upload-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.upload-hint { font-size: 13px; color: var(--muted); line-height: 1.5; }
+#file-input { display: none; }
+
+/* ── Status Bar ─────────────────────────── */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: none;
+}
+.status.ok     { background: #052e16; border: 1px solid var(--green);  color: #86efac; }
+.status.warn   { background: #1c1200; border: 1px solid var(--yellow); color: #fde68a; }
+.status.over   { background: #1c0d00; border: 1px solid var(--orange); color: #fdba74; }
+
+/* ── Preview Grid ───────────────────────── */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.preview-item {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  position: relative;
+}
+.preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.preview-name {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,.75);
+  font-size: 9px;
+  padding: 3px 6px;
+  color: var(--sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Analyze Button ─────────────────────── */
+.cta-wrap { display: flex; justify-content: center; margin-bottom: 36px; }
+.cta-btn {
+  background: linear-gradient(135deg, var(--orange), var(--orange2));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 56px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(249,115,22,.35);
+  transition: transform .15s, box-shadow .15s;
+  display: none;
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(249,115,22,.45); }
+.cta-btn:disabled { opacity: .45; transform: none; cursor: not-allowed; }
+
+/* ── Progress ───────────────────────────── */
+.prog-wrap { margin-bottom: 28px; display: none; }
+.prog-label { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.prog-track { height: 5px; background: var(--bg4); border-radius: 99px; overflow: hidden; }
+.prog-fill  { height: 100%; width: 0%; background: linear-gradient(90deg, var(--orange), var(--yellow)); border-radius: 99px; transition: width .35s; }
+
+/* ── Verdict ────────────────────────────── */
+.verdict {
+  border-radius: 16px;
+  padding: 36px;
+  text-align: center;
+  margin-bottom: 28px;
+  display: none;
+}
+.verdict.approved { background: #041d0f; border: 1px solid var(--green); }
+.verdict.denied   { background: #1c0505; border: 1px solid var(--red); }
+
+.verdict-icon { font-size: 52px; margin-bottom: 12px; }
+.verdict-title {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.verdict.approved .verdict-title { color: var(--green); }
+.verdict.denied   .verdict-title { color: var(--red); }
+.verdict-sub { font-size: 14px; color: var(--sub); margin-bottom: 0; }
+
+.set-errors {
+  margin-top: 16px;
+  text-align: left;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.set-error-item {
+  background: rgba(239,68,68,.1);
+  border: 1px solid rgba(239,68,68,.25);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #fca5a5;
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Metrics ────────────────────────────── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 36px;
+  display: none;
+}
+.metric {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.metric.good { border-color: rgba(16,185,129,.4); background: #041d0f; }
+.metric.bad  { border-color: rgba(239,68,68,.4);  background: #1c0505; }
+.metric-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+.metric-val   { font-size: 30px; font-weight: 900; line-height: 1; }
+.metric.good .metric-val { color: var(--green); }
+.metric.bad  .metric-val { color: var(--red); }
+.metric-delta { font-size: 12px; margin-top: 5px; }
+.metric.good .metric-delta { color: var(--green); }
+.metric.bad  .metric-delta { color: var(--red); }
+
+/* ── Creative Cards ─────────────────────── */
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.card {
+  background: var(--bg2);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  transition: border-color .2s;
+}
+.card.approved { border-left-color: var(--green); }
+.card.denied   { border-left-color: var(--red); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+}
+.card-header:hover { background: rgba(255,255,255,.02); }
+
+.card-header-left { display: flex; align-items: center; gap: 12px; }
+.card-status-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.card.approved .card-status-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.card.denied   .card-status-dot { background: var(--red);   box-shadow: 0 0 6px var(--red); }
+
+.card-filename { font-size: 14px; font-weight: 600; }
+.card-fmt {
+  font-size: 11px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 9px;
+  color: var(--muted);
+}
+.card-chevron { color: var(--muted); font-size: 11px; transition: transform .2s; }
+.card-chevron.open { transform: rotate(90deg); }
+
+.card-body { display: none; padding: 0 20px 20px; }
+.card-body.open { display: block; }
+
+.card-content { display: flex; gap: 20px; align-items: flex-start; }
+.card-thumb {
+  width: 190px;
+  min-width: 190px;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.card-info { flex: 1; }
+
+/* Info rows */
+.info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 0; margin-bottom: 14px; }
+.info-k { font-size: 11.5px; font-weight: 600; color: var(--muted); padding-top: 2px; text-transform: uppercase; letter-spacing: .5px; }
+.info-v { font-size: 13.5px; }
+
+.type-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 3px 3px 0;
+}
+.type-chip.trust   { background: rgba(96,165,250,.12); border: 1px solid rgba(96,165,250,.3); color: #93c5fd; }
+.type-chip.service { background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.3); color: #6ee7b7; }
+.type-chip.brand   { background: rgba(167,139,250,.12); border: 1px solid rgba(167,139,250,.3); color: #c4b5fd; }
+
+/* Check rows */
+.checks { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 7px;
+}
+.check.pass { background: rgba(16,185,129,.07); }
+.check.fail { background: rgba(239,68,68,.08); }
+.check-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+.check-label { color: var(--sub); }
+.check.fail .check-label { color: #fca5a5; }
+
+/* Error blocks */
+.error-block {
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.error-block-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #f87171;
+  margin-bottom: 8px;
+}
+.error-item {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: #fca5a5;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+.error-item:last-child { margin-bottom: 0; }
+
+.ai-block {
+  background: rgba(167,139,250,.07);
+  border: 1px solid rgba(167,139,250,.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.ai-block-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #c4b5fd;
+  margin-bottom: 8px;
+}
+
+.notes-box {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.rule { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .content { padding: 28px 20px; }
+  .preview-grid { grid-template-columns: repeat(3, 1fr); }
+  .metrics { grid-template-columns: repeat(3, 1fr); }
+  .card-content { flex-direction: column; }
+  .card-thumb { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo">Creative <em>Mastery</em></div>
+      <div class="logo-sub">Ad Set 101 · AI Reviewer</div>
+    </div>
+
+    <hr class="sb-rule">
+
+    <div>
+      <div class="sb-heading">📋 Set Requirements</div>
+      <ul class="sb-list">
+        <li>15 total creatives per set</li>
+        <li>5× Singles — Trust or Service only</li>
+        <li>5× Two-Folds — paired different types</li>
+        <li>5× Tri-Folds — Trust + Service + Brand</li>
+        <li>Extra videos allowed (optional)</li>
+        <li>Never reuse a creative across sets</li>
+      </ul>
+    </div>
+
+    <hr class="sb-rule">
+
+    <div>
+      <div class="sb-heading">🚫 Auto-Deny Triggers</div>
+      <ul class="sb-list">
+        <li>Blurred or jumbled logo</li>
+        <li>Unreadable AI-generated text</li>
+        <li>Duplicate faces in one image</li>
+        <li>Subject cut off at edges</li>
+        <li>Severe over/under exposure</li>
+        <li>Brand-only photo used in a Single</li>
+        <li>Generic AI faces when real reps exist</li>
+      </ul>
+    </div>
+
+    <hr class="sb-rule">
+
+    <div>
+      <div class="sb-heading">📸 Photo Types</div>
+      <ul class="sb-list">
+        <li><strong style="color:#93c5fd">Trust</strong> — happy person(s), positive feeling</li>
+        <li><strong style="color:#6ee7b7">Service</strong> — roofing/HVAC work, completed or WIP</li>
+        <li><strong style="color:#c4b5fd">Brand</strong> — vehicle, branded clothes, lawn sign</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <div class="page-header">
+      <div class="page-title">🎯 Ad Set <em>Reviewer</em></div>
+      <div class="page-sub">AI quality control — Creative Mastery | Ad Set 101</div>
+    </div>
+
+    <!-- Upload -->
+    <div class="upload-zone" id="zone">
+      <div class="upload-icon">📁</div>
+      <div class="upload-title">Drop your ad set here</div>
+      <div class="upload-hint">
+        or click to browse &nbsp;·&nbsp; JPG, PNG, WEBP<br>
+        15 creatives required — 5 Singles · 5 Two-Folds · 5 Tri-Folds
+      </div>
+      <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp" multiple>
+    </div>
+
+    <!-- Status -->
+    <div class="status" id="status"></div>
+
+    <!-- Preview -->
+    <div class="preview-grid" id="previews"></div>
+
+    <!-- Analyze Button -->
+    <div class="cta-wrap">
+      <button class="cta-btn" id="analyze-btn">🔍&nbsp; Analyze Ad Set</button>
+    </div>
+
+    <!-- Progress -->
+    <div class="prog-wrap" id="prog-wrap">
+      <div class="prog-label" id="prog-label">Analyzing…</div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="verdict" id="verdict">
+      <div class="verdict-icon" id="verdict-icon"></div>
+      <div class="verdict-title" id="verdict-title"></div>
+      <div class="verdict-sub" id="verdict-sub"></div>
+      <div class="set-errors" id="set-errors"></div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics" id="metrics"></div>
+
+    <!-- Cards heading -->
+    <div class="section-title" id="cards-heading">🖼️ Creative-by-Creative Review</div>
+
+    <!-- Creative Cards -->
+    <div id="cards"></div>
+
+  </main>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let files = [];
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const zone        = document.getElementById('zone');
+const fileInput   = document.getElementById('file-input');
+const statusEl    = document.getElementById('status');
+const previewsEl  = document.getElementById('previews');
+const analyzeBtn  = document.getElementById('analyze-btn');
+const progWrap    = document.getElementById('prog-wrap');
+const progFill    = document.getElementById('prog-fill');
+const progLabel   = document.getElementById('prog-label');
+const verdictEl   = document.getElementById('verdict');
+const metricsEl   = document.getElementById('metrics');
+const cardsEl     = document.getElementById('cards');
+const cardsHead   = document.getElementById('cards-heading');
+
+// ── Upload ────────────────────────────────────────────────────────────────────
+zone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => load(e.target.files));
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag'); load(e.dataTransfer.files); });
+
+function load(list) {
+  files = Array.from(list);
+  renderPreviews();
+  renderStatus();
+  analyzeBtn.style.display = files.length ? 'block' : 'none';
+  verdictEl.style.display  = 'none';
+  metricsEl.style.display  = 'none';
+  cardsHead.style.display  = 'none';
+  cardsEl.innerHTML        = '';
+}
+
+function renderPreviews() {
+  previewsEl.innerHTML = '';
+  files.forEach(f => {
+    const url  = URL.createObjectURL(f);
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    item.innerHTML = `<img src="${url}" alt="${f.name}"><div class="preview-name">${f.name}</div>`;
+    previewsEl.appendChild(item);
+  });
+}
+
+function renderStatus() {
+  const n = files.length;
+  statusEl.style.display = 'flex';
+  statusEl.className = 'status ' + (n === 15 ? 'ok' : n < 15 ? 'warn' : 'over');
+  statusEl.textContent = n === 15
+    ? `✅  ${n} creatives uploaded — ready to review`
+    : n < 15
+    ? `⚠️  ${n}/15 creatives — need ${15 - n} more to meet set requirements`
+    : `ℹ️  ${n} creatives uploaded — ${n - 15} over the 15 required`;
+}
+
+// ── Analyze ───────────────────────────────────────────────────────────────────
+analyzeBtn.addEventListener('click', async () => {
+  if (!files.length) return;
+
+  analyzeBtn.disabled       = true;
+  progWrap.style.display    = 'block';
+  verdictEl.style.display   = 'none';
+  metricsEl.style.display   = 'none';
+  cardsHead.style.display   = 'none';
+  cardsEl.innerHTML         = '';
+
+  const results = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    progLabel.textContent = `Analyzing ${f.name} (${i + 1} / ${files.length})…`;
+    progFill.style.width  = `${((i + 1) / files.length) * 100}%`;
+
+    try {
+      const b64       = await toBase64(f);
+      const mediaType = mimeOf(f.name);
+      const result    = await callAPI(b64, mediaType);
+      result._name    = f.name;
+      result._idx     = i;
+      result._url     = URL.createObjectURL(f);
+      results.push(result);
+    } catch (err) {
+      results.push({
+        _name: f.name, _idx: i, _url: URL.createObjectURL(f),
+        _error: err.message, format: 'unknown', approved: false,
+        rejection_reasons: [`Analysis failed: ${err.message}`],
+        photo_types: [], cropping: 'unknown', brightness: 'unknown',
+        appears_ai_generated: false, ai_issues: {}, format_rule_violations: [], notes: '',
+      });
+    }
+  }
+
+  progWrap.style.display = 'none';
+  analyzeBtn.disabled = false;
+  render(results);
+});
+
+async function callAPI(b64, mediaType) {
+  const res = await fetch('/api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image_b64: b64, media_type: mediaType }),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`Server error ${res.status}: ${txt}`);
+  }
+  return res.json();
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+function mimeOf(name) {
+  const n = name.toLowerCase();
+  if (n.endsWith('.png'))  return 'image/png';
+  if (n.endsWith('.webp')) return 'image/webp';
+  return 'image/jpeg';
+}
+
+// ── Render Results ────────────────────────────────────────────────────────────
+function render(results) {
+  const { setIssues, counts } = validateSet(results);
+  const failCount  = results.filter(r => !r.approved).length;
+  const allGood    = setIssues.length === 0 && failCount === 0;
+  const approved   = results.filter(r => r.approved).length;
+
+  // Verdict
+  verdictEl.className = 'verdict ' + (allGood ? 'approved' : 'denied');
+  document.getElementById('verdict-icon').textContent  = allGood ? '✅' : '❌';
+  document.getElementById('verdict-title').textContent = allGood ? 'AD SET APPROVED' : 'AD SET DENIED';
+  document.getElementById('verdict-sub').textContent   = allGood
+    ? `All ${results.length} creatives meet Creative Mastery standards. Ready to go live.`
+    : `${failCount} creative${failCount !== 1 ? 's' : ''} failed QC. Fix the issues below before this set goes live.`;
+
+  const errBox = document.getElementById('set-errors');
+  errBox.innerHTML = '';
+  setIssues.forEach(msg => {
+    errBox.innerHTML += `<div class="set-error-item"><span>🚫</span><span>${msg}</span></div>`;
+  });
+
+  verdictEl.style.display = 'block';
+  verdictEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Metrics
+  const metricDefs = [
+    { label: 'Total',     val: results.length,            target: 15 },
+    { label: 'Singles',   val: counts.single   || 0,      target: 5 },
+    { label: 'Two-Folds', val: counts.two_fold || 0,      target: 5 },
+    { label: 'Tri-Folds', val: counts.tri_fold || 0,      target: 5 },
+    { label: 'Approved',  val: `${approved}/${results.length}`, target: null, good: failCount === 0 },
+  ];
+  metricsEl.innerHTML = metricDefs.map(m => {
+    const isGood = m.target !== null
+      ? m.val === m.target
+      : m.good;
+    const delta = m.target !== null
+      ? (m.val - m.target === 0 ? '✓ On target' : `${m.val - m.target > 0 ? '+' : ''}${m.val - m.target} vs required`)
+      : (isGood ? '✓ All passed' : `${results.length - approved} need fixing`);
+    return `
+      <div class="metric ${isGood ? 'good' : 'bad'}">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-val">${m.val}</div>
+        <div class="metric-delta">${delta}</div>
+      </div>`;
+  }).join('');
+  metricsEl.style.display = 'grid';
+
+  // Cards
+  cardsHead.style.display = 'block';
+  cardsEl.innerHTML = '';
+  results.forEach(r => cardsEl.appendChild(buildCard(r)));
+}
+
+function validateSet(results) {
+  const setIssues = [];
+  const counts    = { single: 0, two_fold: 0, tri_fold: 0 };
+  results.forEach(r => counts[r.format] = (counts[r.format] || 0) + 1);
+
+  const n = results.length;
+  if      (n < 15) setIssues.push(`Set only has ${n} creative${n !== 1 ? 's' : ''} — minimum is 15`);
+  else if (n > 15) setIssues.push(`Set has ${n} creatives — should be exactly 15`);
+
+  if ((counts.single   || 0) !== 5) setIssues.push(`Needs exactly 5 Singles — found ${counts.single   || 0}`);
+  if ((counts.two_fold || 0) !== 5) setIssues.push(`Needs exactly 5 Two-Folds — found ${counts.two_fold || 0}`);
+  if ((counts.tri_fold || 0) !== 5) setIssues.push(`Needs exactly 5 Tri-Folds — found ${counts.tri_fold || 0}`);
+
+  return { setIssues, counts };
+}
+
+function fmtLabel(f) {
+  return { single: 'Single', two_fold: 'Two-Fold', tri_fold: 'Tri-Fold' }[f] || f.replace(/_/g,' ');
+}
+
+function buildCard(r) {
+  const ok = r.approved;
+  const card = document.createElement('div');
+  card.className = `card ${ok ? 'approved' : 'denied'}`;
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'card-header';
+  const uid = `c-${r._idx}`;
+  hdr.innerHTML = `
+    <div class="card-header-left">
+      <div class="card-status-dot"></div>
+      <span class="card-filename">${r._name}</span>
+      <span class="card-fmt">${fmtLabel(r.format)}</span>
+    </div>
+    <span class="card-chevron ${!ok ? 'open' : ''}" id="${uid}-chev">▶</span>`;
+
+  // Body
+  const body = document.createElement('div');
+  body.className = `card-body ${!ok ? 'open' : ''}`;
+  body.id = `${uid}-body`;
+
+  // Photo type chips
+  const typeChips = (r.photo_types || []).map(t =>
+    `<span class="type-chip ${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</span>`
+  ).join('') || '<span style="color:var(--muted)">Unknown</span>';
+
+  // Editing checks
+  const cropOk = r.cropping  === 'good';
+  const brtOk  = r.brightness === 'perfect';
+  const cropMsg = { good: 'Cropping looks good', cut_off: 'Subject is cut off at the edges', too_tight: 'Crop is too tight — no breathing room', dead_space: 'Too much dead space — crop tighter' };
+  const brtMsg  = { perfect: 'Brightness is well-balanced', too_dark: 'Image is too dark — increase brightness', too_bright: 'Image is too bright / washed out — reduce brightness' };
+
+  const editingChecks = `
+    <div class="checks">
+      <div class="check ${cropOk ? 'pass' : 'fail'}">
+        <span class="check-icon">${cropOk ? '✅' : '❌'}</span>
+        <span class="check-label">${cropMsg[r.cropping] || r.cropping}</span>
+      </div>
+      <div class="check ${brtOk ? 'pass' : 'fail'}">
+        <span class="check-icon">${brtOk ? '✅' : '❌'}</span>
+        <span class="check-label">${brtMsg[r.brightness] || r.brightness}</span>
+      </div>
+    </div>`;
+
+  // AI checks
+  let aiSection = '';
+  if (r.appears_ai_generated) {
+    const ai = r.ai_issues || {};
+    const aiChecks = [
+      ['blurred_logo',         'Logo is clear and readable'],
+      ['jumbled_text',         'Text is legible and readable'],
+      ['duplicate_people',     'No duplicate faces in the image'],
+      ['logo_spammed',         'Logo used appropriately (not spammed)'],
+      ['inconsistent_likeness','AI likeness matches real rep'],
+    ].map(([k, lbl]) => `
+      <div class="check ${ai[k] ? 'fail' : 'pass'}">
+        <span class="check-icon">${ai[k] ? '❌' : '✅'}</span>
+        <span class="check-label">${lbl}</span>
+      </div>`).join('');
+    aiSection = `
+      <div class="ai-block">
+        <div class="ai-block-title">🤖 AI-Generated — Quality Checks</div>
+        <div class="checks" style="gap:5px">${aiChecks}</div>
+      </div>`;
+  }
+
+  // Format violations
+  let violationsSection = '';
+  const violations = r.format_rule_violations || [];
+  if (violations.length) {
+    violationsSection = `
+      <div class="error-block">
+        <div class="error-block-title">Format Rule Violations</div>
+        ${violations.map(v => `<div class="error-item"><span>❌</span><span>${v}</span></div>`).join('')}
+      </div>`;
+  }
+
+  // Rejection reasons
+  let reasonsSection = '';
+  const reasons = r.rejection_reasons || [];
+  if (reasons.length) {
+    reasonsSection = `
+      <div class="error-block">
+        <div class="error-block-title">🚫 Rejection Reasons</div>
+        ${reasons.map(rr => `<div class="error-item"><span>•</span><span>${rr}</span></div>`).join('')}
+      </div>`;
+  }
+
+  // Error blocks first if denied
+  const errBlocks = violationsSection + reasonsSection;
+
+  body.innerHTML = `
+    <div class="card-content">
+      <div class="card-thumb"><img src="${r._url}" alt="${r._name}"></div>
+      <div class="card-info">
+        ${!ok && errBlocks ? errBlocks : ''}
+        <div class="info-grid">
+          <div class="info-k">Format</div>
+          <div class="info-v">${fmtLabel(r.format)}</div>
+          <div class="info-k">Photo Types</div>
+          <div class="info-v">${typeChips}</div>
+        </div>
+        <hr class="rule">
+        ${editingChecks}
+        ${aiSection}
+        ${ok && errBlocks ? errBlocks : ''}
+        ${r.notes ? `<div class="notes-box">💬 ${r.notes}</div>` : ''}
+      </div>
+    </div>`;
+
+  // Toggle
+  hdr.addEventListener('click', () => {
+    const chev = document.getElementById(`${uid}-chev`);
+    const bd   = document.getElementById(`${uid}-body`);
+    chev.classList.toggle('open');
+    bd.classList.toggle('open');
+  });
+
+  card.appendChild(hdr);
+  card.appendChild(body);
+  return card;
+}
+</script>
+</body>
+</html>
