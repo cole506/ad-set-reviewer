@@ -37,13 +37,13 @@ Does this image appear AI-generated? If so, check each of the following:
 - distorted_logo: Company logo is AI-distorted — letters are warped, morphed, or illegible in a way typical of AI generation (NOT just pixelated/low-res — pixelation is fine). true = BAD, 3pt issue, auto-deny creative.
 - jumbled_text: Any text in the image garbled, unreadable, or nonsensical in an AI-artifact way? true = BAD, 3pt issue, auto-deny creative.
 - duplicate_people: Same face appears more than once in the image? true = BAD, 3pt issue, auto-deny creative.
-- logo_spammed: Logo appears more than twice in a single creative? true = BAD, 3pt issue, auto-deny creative.
+- logo_spammed: Logo appears more than twice within a single photo/panel? true = BAD, 3pt issue, auto-deny creative. Note: evaluate each panel individually — a logo appearing once per panel across multiple panels is fine.
 - generic_ai_face: AI-generated generic/stock-looking faces used when real company reps exist (owners, salespeople). true = BAD, 3pt issue, auto-deny creative. Note: generic faces are fine for background laborers only.
 
 ## STEP 5 — FORMAT RULE CHECK
 - Single: MUST include at least Trust or Service. Brand elements are ALLOWED in a Single as long as Trust is ALSO present (e.g., a branded vehicle with a happy rep = OK). A Single that contains ONLY Brand with NO Trust and NO Service is a violation (1pt issue).
 - Two-fold: SHOULD pair different photo types — same type pairing (e.g., Trust + Trust) is a 1pt issue.
-- Tri-fold: SHOULD include a mix of Trust, Service, and Brand — missing one of the three types is a 1pt issue.
+- Tri-fold: Ideally includes a mix of Trust, Service, and Brand — but Brand is NOT required. Missing Brand is NOT a violation. Only flag if Trust AND Service are both missing.
 
 ## POINT VALUES SUMMARY
 - 3pt issues (auto-deny the individual creative): distorted_logo, jumbled_text, duplicate_people, logo_spammed, generic_ai_face
