@@ -21,28 +21,41 @@ For each panel, identify the types used (list all that apply):
 ## STEP 3 — EDITING QUALITY
 Cropping:
 - "good" → subject fully visible, space on all 4 sides, no wasted space
-- "face_warn" → face is partially out of frame BUT both eyes AND mouth are clearly visible (issue a warning, do NOT deny)
-- "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off (deny)
-- "too_tight" → crop is so close there is zero breathing room
-- "dead_space" → large areas of wasted/empty space that should be cropped
+- "face_warn" → face is partially out of frame BUT both eyes AND mouth are clearly visible (1pt issue, do NOT deny the creative)
+- "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off (1pt issue)
+- "too_tight" → crop is so close there is zero breathing room (1pt issue)
+- "dead_space" → large areas of wasted/empty space that should be cropped (1pt issue)
 
 Brightness:
 - "perfect" → well-balanced, details are clear
-- "too_dark" → under-exposed, hard to see details
-- "too_bright" → over-exposed or washed out
+- "too_dark" → under-exposed, hard to see details (1pt issue)
+- "too_bright" → over-exposed or washed out (1pt issue)
 
 ## STEP 4 — AI IMAGE CHECK
-Does this image appear AI-generated? If so, check:
-- blurred_logo: Company logo blurry, distorted, or has garbled text? (true = BAD)
-- jumbled_text: Any text in the image garbled, unreadable, or nonsensical? (true = BAD)
-- duplicate_people: Same face appears more than once in the image? (true = BAD)
-- logo_spammed: Logo appears excessively/unnecessarily throughout? (true = BAD)
-- inconsistent_likeness: AI versions do NOT look like the real reference person? (true = BAD)
+Does this image appear AI-generated? If so, check each of the following:
+
+- distorted_logo: Company logo is AI-distorted — letters are warped, morphed, or illegible in a way typical of AI generation (NOT just pixelated/low-res — pixelation is fine). true = BAD, 3pt issue, auto-deny creative.
+- jumbled_text: Any text in the image garbled, unreadable, or nonsensical in an AI-artifact way? true = BAD, 3pt issue, auto-deny creative.
+- duplicate_people: Same face appears more than once in the image? true = BAD, 3pt issue, auto-deny creative.
+- logo_spammed: Logo appears more than twice in a single creative? true = BAD, 3pt issue, auto-deny creative.
+- generic_ai_face: AI-generated generic/stock-looking faces used when real company reps exist (owners, salespeople). true = BAD, 3pt issue, auto-deny creative. Note: generic faces are fine for background laborers only.
 
 ## STEP 5 — FORMAT RULE CHECK
-- Single: MUST include at least Trust or Service. Brand elements are ALLOWED in a Single as long as Trust is ALSO present (e.g., a branded vehicle with a happy rep = OK). A Single that contains ONLY Brand with NO Trust and NO Service is a violation.
-- Two-fold: SHOULD pair different photo types
-- Tri-fold: SHOULD include a mix of Trust, Service, and Brand
+- Single: MUST include at least Trust or Service. Brand elements are ALLOWED in a Single as long as Trust is ALSO present (e.g., a branded vehicle with a happy rep = OK). A Single that contains ONLY Brand with NO Trust and NO Service is a violation (1pt issue).
+- Two-fold: SHOULD pair different photo types — same type pairing (e.g., Trust + Trust) is a 1pt issue.
+- Tri-fold: SHOULD include a mix of Trust, Service, and Brand — missing one of the three types is a 1pt issue.
+
+## POINT VALUES SUMMARY
+- 3pt issues (auto-deny the individual creative): distorted_logo, jumbled_text, duplicate_people, logo_spammed, generic_ai_face
+- 1pt issues (flag the creative, do not auto-deny): bad cropping (any non-good value), bad brightness, any format rule violation
+
+## SCORING INSTRUCTIONS
+Calculate issue_points for this creative by summing all issues found:
+- Each 3pt AI issue found = 3 points each
+- Each 1pt editing/format issue found = 1 point each
+- A creative with 0 points = approved (green)
+- A creative with 1-2 points = flagged (yellow) — set approved:true, flagged:true
+- A creative with 3+ points = denied (red) — set approved:false, flagged:false
 
 ## OUTPUT
 Return ONLY raw JSON — no markdown, no backticks, no explanation:
@@ -53,20 +66,21 @@ Return ONLY raw JSON — no markdown, no backticks, no explanation:
   "brightness": "perfect" | "too_dark" | "too_bright",
   "appears_ai_generated": true | false,
   "ai_issues": {
-    "blurred_logo": false,
+    "distorted_logo": false,
     "jumbled_text": false,
     "duplicate_people": false,
     "logo_spammed": false,
-    "inconsistent_likeness": false
+    "generic_ai_face": false
   },
   "format_rule_violations": [],
+  "issue_points": 0,
   "approved": true | false,
+  "flagged": false,
   "rejection_reasons": [],
   "notes": "1-2 sentence overall assessment"
 }`;
 
 module.exports = async function handler(req, res) {
-  // CORS headers so the frontend can call this from any origin
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -126,6 +140,24 @@ module.exports = async function handler(req, res) {
     }
 
     const result = JSON.parse(text.trim());
+
+    // Server-side safety: recalculate issue_points and approved/flagged
+    // to ensure consistency regardless of what the model returns
+    let points = 0;
+    const ai = result.ai_issues || {};
+    const THREE_PT_ISSUES = ["distorted_logo", "jumbled_text", "duplicate_people", "logo_spammed", "generic_ai_face"];
+    THREE_PT_ISSUES.forEach(k => { if (ai[k]) points += 3; });
+
+    if (result.cropping && result.cropping !== "good") points += 1;
+    if (result.brightness && result.brightness !== "perfect") points += 1;
+    if (result.format_rule_violations && result.format_rule_violations.length > 0) {
+      points += result.format_rule_violations.length;
+    }
+
+    result.issue_points = points;
+    result.approved = points < 3;
+    result.flagged  = points >= 1 && points < 3;
+
     return res.status(200).json(result);
 
   } catch (err) {
