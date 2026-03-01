@@ -196,6 +196,7 @@ body {
   display: none;
 }
 .verdict.approved { background: #041d0f; border: 1px solid var(--green); }
+.verdict.flagged  { background: #1c1200; border: 1px solid var(--yellow); }
 .verdict.denied   { background: #1c0505; border: 1px solid var(--red); }
 
 .verdict-icon { font-size: 52px; margin-bottom: 12px; }
@@ -206,8 +207,23 @@ body {
   margin-bottom: 10px;
 }
 .verdict.approved .verdict-title { color: var(--green); }
+.verdict.flagged  .verdict-title { color: var(--yellow); }
 .verdict.denied   .verdict-title { color: var(--red); }
 .verdict-sub { font-size: 14px; color: var(--sub); margin-bottom: 0; }
+
+/* Score pill */
+.score-pill {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 18px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.verdict.approved .score-pill { background: rgba(16,185,129,.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,.3); }
+.verdict.flagged  .score-pill { background: rgba(245,158,11,.15); color: #fde68a; border: 1px solid rgba(245,158,11,.3); }
+.verdict.denied   .score-pill { background: rgba(239,68,68,.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
 
 .set-errors {
   margin-top: 16px;
@@ -229,7 +245,6 @@ body {
   display: flex;
   gap: 10px;
 }
-
 .set-warn-item {
   background: rgba(245,158,11,.1);
   border: 1px solid rgba(245,158,11,.25);
@@ -256,15 +271,18 @@ body {
   padding: 18px 16px;
   text-align: center;
 }
-.metric.good { border-color: rgba(16,185,129,.4); background: #041d0f; }
-.metric.bad  { border-color: rgba(239,68,68,.4);  background: #1c0505; }
+.metric.good   { border-color: rgba(16,185,129,.4);  background: #041d0f; }
+.metric.bad    { border-color: rgba(239,68,68,.4);   background: #1c0505; }
+.metric.medium { border-color: rgba(245,158,11,.4);  background: #1c1200; }
 .metric-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
 .metric-val   { font-size: 30px; font-weight: 900; line-height: 1; }
-.metric.good .metric-val { color: var(--green); }
-.metric.bad  .metric-val { color: var(--red); }
+.metric.good   .metric-val { color: var(--green); }
+.metric.bad    .metric-val { color: var(--red); }
+.metric.medium .metric-val { color: var(--yellow); }
 .metric-delta { font-size: 12px; margin-top: 5px; }
-.metric.good .metric-delta { color: var(--green); }
-.metric.bad  .metric-delta { color: var(--red); }
+.metric.good   .metric-delta { color: var(--green); }
+.metric.bad    .metric-delta { color: var(--red); }
+.metric.medium .metric-delta { color: var(--yellow); }
 
 /* ── Creative Cards ─────────────────────── */
 .section-title {
@@ -284,6 +302,7 @@ body {
   transition: border-color .2s;
 }
 .card.approved { border-left-color: var(--green); }
+.card.flagged  { border-left-color: var(--yellow); }
 .card.denied   { border-left-color: var(--red); }
 
 .card-header {
@@ -303,8 +322,9 @@ body {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.card.approved .card-status-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
-.card.denied   .card-status-dot { background: var(--red);   box-shadow: 0 0 6px var(--red); }
+.card.approved .card-status-dot { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+.card.flagged  .card-status-dot { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+.card.denied   .card-status-dot { background: var(--red);    box-shadow: 0 0 6px var(--red); }
 
 .card-filename { font-size: 14px; font-weight: 600; }
 .card-fmt {
@@ -315,6 +335,20 @@ body {
   padding: 3px 9px;
   color: var(--muted);
 }
+
+/* Status badge on card header */
+.card-status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.card.approved .card-status-badge { background: rgba(16,185,129,.12);  border: 1px solid rgba(16,185,129,.3);  color: #6ee7b7; }
+.card.flagged  .card-status-badge { background: rgba(245,158,11,.12);  border: 1px solid rgba(245,158,11,.3);  color: #fde68a; }
+.card.denied   .card-status-badge { background: rgba(239,68,68,.12);   border: 1px solid rgba(239,68,68,.3);   color: #fca5a5; }
+
 .card-chevron { color: var(--muted); font-size: 11px; transition: transform .2s; }
 .card-chevron.open { transform: rotate(90deg); }
 
@@ -369,6 +403,18 @@ body {
 .check.warn .check-label { color: #fde68a; }
 .check.fail .check-label { color: #fca5a5; }
 
+/* Point badge on check row */
+.pt-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.pt-badge.pt1 { background: rgba(245,158,11,.15); color: #fde68a; border: 1px solid rgba(245,158,11,.3); }
+.pt-badge.pt3 { background: rgba(239,68,68,.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
+
 /* Error blocks */
 .error-block {
   background: rgba(239,68,68,.08);
@@ -395,6 +441,33 @@ body {
   line-height: 1.4;
 }
 .error-item:last-child { margin-bottom: 0; }
+
+/* Flag block (yellow) */
+.flag-block {
+  background: rgba(245,158,11,.08);
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.flag-block-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #fbbf24;
+  margin-bottom: 8px;
+}
+.flag-item {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: #fde68a;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+.flag-item:last-child { margin-bottom: 0; }
 
 .ai-block {
   background: rgba(167,139,250,.07);
@@ -463,15 +536,11 @@ body {
     <hr class="sb-rule">
 
     <div>
-      <div class="sb-heading">🚫 Auto-Deny Triggers</div>
+      <div class="sb-heading">⚖️ Issue Weights</div>
       <ul class="sb-list">
-        <li>Blurred or jumbled logo</li>
-        <li>Unreadable AI-generated text</li>
-        <li>Duplicate faces in one image</li>
-        <li>Subject cut off at edges</li>
-        <li>Severe over/under exposure</li>
-        <li>Brand-only Single (no Trust or Service present)</li>
-        <li>Generic AI faces when real reps exist</li>
+        <li><strong style="color:#fca5a5">3pts — Auto-deny:</strong> Distorted logo, jumbled text, duplicate faces, logo spam (&gt;2×), generic AI faces</li>
+        <li><strong style="color:#fde68a">1pt — Flagged:</strong> Bad crop, bad brightness, format rule violation</li>
+        <li>Set denied at 3+ total points</li>
       </ul>
     </div>
 
@@ -528,6 +597,7 @@ body {
       <div class="verdict-icon" id="verdict-icon"></div>
       <div class="verdict-title" id="verdict-title"></div>
       <div class="verdict-sub" id="verdict-sub"></div>
+      <div id="verdict-score"></div>
       <div class="set-errors" id="set-errors"></div>
     </div>
 
@@ -630,7 +700,8 @@ analyzeBtn.addEventListener('click', async () => {
     } catch (err) {
       results.push({
         _name: f.name, _idx: i, _url: URL.createObjectURL(f),
-        _error: err.message, format: 'unknown', approved: false,
+        _error: err.message, format: 'unknown', approved: false, flagged: false,
+        issue_points: 99,
         rejection_reasons: [`Analysis failed: ${err.message}`],
         photo_types: [], cropping: 'unknown', brightness: 'unknown',
         appears_ai_generated: false, ai_issues: {}, format_rule_violations: [], notes: '',
@@ -672,23 +743,51 @@ function mimeOf(name) {
   return 'image/jpeg';
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function creativeStatus(r) {
+  // approved=false means denied (3+ pts on creative)
+  // flagged=true means 1-2 pts
+  if (!r.approved) return 'denied';
+  if (r.flagged)   return 'flagged';
+  return 'approved';
+}
+
 // ── Render Results ────────────────────────────────────────────────────────────
 function render(results) {
   const { setWarnings, counts } = validateSet(results);
-  const failCount  = results.filter(r => !r.approved).length;
-  const allGood    = failCount === 0;  // set structure warnings never block approval
-  const approved   = results.filter(r => r.approved).length;
+
+  // Total issue points across all creatives
+  const totalPoints = results.reduce((sum, r) => sum + (r.issue_points || 0), 0);
+  const setDenied   = totalPoints >= 3;
+  const setFlagged  = !setDenied && totalPoints >= 1;
+
+  const deniedCount  = results.filter(r => !r.approved).length;
+  const flaggedCount = results.filter(r => r.approved && r.flagged).length;
+  const approvedCount = results.filter(r => r.approved && !r.flagged).length;
 
   // Verdict
-  verdictEl.className = 'verdict ' + (allGood ? 'approved' : 'denied');
-  document.getElementById('verdict-icon').textContent  = allGood ? '✅' : '❌';
-  document.getElementById('verdict-title').textContent = allGood ? 'AD SET APPROVED' : 'AD SET DENIED';
-  document.getElementById('verdict-sub').textContent   = allGood
-    ? (setWarnings.length
-        ? `All ${results.length} creatives pass QC — see structure notes below.`
-        : `All ${results.length} creatives meet Creative Mastery standards. Ready to go live.`)
-    : `${failCount} creative${failCount !== 1 ? 's' : ''} failed QC. Fix the issues below before this set goes live.`;
+  const verdictClass = setDenied ? 'denied' : setFlagged ? 'flagged' : 'approved';
+  verdictEl.className = 'verdict ' + verdictClass;
+  document.getElementById('verdict-icon').textContent  = setDenied ? '❌' : setFlagged ? '⚠️' : '✅';
+  document.getElementById('verdict-title').textContent = setDenied ? 'AD SET DENIED' : setFlagged ? 'AD SET FLAGGED' : 'AD SET APPROVED';
 
+  let subText = '';
+  if (setDenied) {
+    subText = `Set scored ${totalPoints} issue point${totalPoints !== 1 ? 's' : ''} — exceeds the 3-point threshold. Fix the issues below before this set goes live.`;
+  } else if (setFlagged) {
+    subText = `Set scored ${totalPoints} issue point${totalPoints !== 1 ? 's' : ''} — under the 3-point threshold but has minor issues worth reviewing.`;
+  } else {
+    subText = setWarnings.length
+      ? `All ${results.length} creatives pass QC — see structure notes below.`
+      : `All ${results.length} creatives meet Creative Mastery standards. Ready to go live.`;
+  }
+  document.getElementById('verdict-sub').textContent = subText;
+
+  // Score pill
+  const scoreEl = document.getElementById('verdict-score');
+  scoreEl.innerHTML = `<span class="score-pill">Issue Score: ${totalPoints} pt${totalPoints !== 1 ? 's' : ''} / 3 to deny</span>`;
+
+  // Set-level warnings
   const errBox = document.getElementById('set-errors');
   errBox.innerHTML = '';
   setWarnings.forEach(msg => {
@@ -700,21 +799,25 @@ function render(results) {
 
   // Metrics
   const metricDefs = [
-    { label: 'Total',     val: results.length,            target: 15 },
-    { label: 'Singles',   val: counts.single   || 0,      target: 5 },
-    { label: 'Two-Folds', val: counts.two_fold || 0,      target: 5 },
-    { label: 'Tri-Folds', val: counts.tri_fold || 0,      target: 5 },
-    { label: 'Approved',  val: `${approved}/${results.length}`, target: null, good: failCount === 0 },
+    { label: 'Total',     val: results.length,   target: 15 },
+    { label: 'Singles',   val: counts.single   || 0, target: 5 },
+    { label: 'Two-Folds', val: counts.two_fold || 0, target: 5 },
+    { label: 'Tri-Folds', val: counts.tri_fold || 0, target: 5 },
+    { label: 'Issue Score', val: totalPoints, target: null, custom: true,
+      good: totalPoints === 0, medium: totalPoints >= 1 && totalPoints < 3, bad: totalPoints >= 3,
+      delta: totalPoints === 0 ? '✓ No issues' : totalPoints < 3 ? `${3 - totalPoints} pt${3 - totalPoints !== 1 ? 's' : ''} under limit` : `${totalPoints - 2} pt${totalPoints - 2 !== 1 ? 's' : ''} over limit` },
   ];
   metricsEl.innerHTML = metricDefs.map(m => {
-    const isGood = m.target !== null
-      ? m.val === m.target
-      : m.good;
-    const delta = m.target !== null
-      ? (m.val - m.target === 0 ? '✓ On target' : `${m.val - m.target > 0 ? '+' : ''}${m.val - m.target} vs required`)
-      : (isGood ? '✓ All passed' : `${results.length - approved} need fixing`);
+    let cls, delta;
+    if (m.custom) {
+      cls   = m.good ? 'good' : m.medium ? 'medium' : 'bad';
+      delta = m.delta;
+    } else {
+      cls   = m.val === m.target ? 'good' : 'bad';
+      delta = m.val - m.target === 0 ? '✓ On target' : `${m.val - m.target > 0 ? '+' : ''}${m.val - m.target} vs required`;
+    }
     return `
-      <div class="metric ${isGood ? 'good' : 'bad'}">
+      <div class="metric ${cls}">
         <div class="metric-label">${m.label}</div>
         <div class="metric-val">${m.val}</div>
         <div class="metric-delta">${delta}</div>
@@ -729,7 +832,6 @@ function render(results) {
 }
 
 function validateSet(results) {
-  // These are WARNINGS only — they never block approval
   const setWarnings = [];
   const counts = { single: 0, two_fold: 0, tri_fold: 0 };
   results.forEach(r => counts[r.format] = (counts[r.format] || 0) + 1);
@@ -750,25 +852,32 @@ function fmtLabel(f) {
 }
 
 function buildCard(r) {
-  const ok = r.approved;
+  const status = creativeStatus(r); // 'approved' | 'flagged' | 'denied'
   const card = document.createElement('div');
-  card.className = `card ${ok ? 'approved' : 'denied'}`;
+  card.className = `card ${status}`;
+
+  const uid = `c-${r._idx}`;
+  const isOpen = status !== 'approved'; // auto-expand flagged and denied
+
+  // Status badge label
+  const badgeLabel = { approved: '✅ Approved', flagged: '⚠️ Flagged', denied: '❌ Denied' }[status];
+  const ptLabel = r.issue_points > 0 ? ` · ${r.issue_points}pt${r.issue_points !== 1 ? 's' : ''}` : '';
 
   // Header
   const hdr = document.createElement('div');
   hdr.className = 'card-header';
-  const uid = `c-${r._idx}`;
   hdr.innerHTML = `
     <div class="card-header-left">
       <div class="card-status-dot"></div>
       <span class="card-filename">${r._name}</span>
       <span class="card-fmt">${fmtLabel(r.format)}</span>
+      <span class="card-status-badge">${badgeLabel}${ptLabel}</span>
     </div>
-    <span class="card-chevron ${!ok ? 'open' : ''}" id="${uid}-chev">▶</span>`;
+    <span class="card-chevron ${isOpen ? 'open' : ''}" id="${uid}-chev">▶</span>`;
 
   // Body
   const body = document.createElement('div');
-  body.className = `card-body ${!ok ? 'open' : ''}`;
+  body.className = `card-body ${isOpen ? 'open' : ''}`;
   body.id = `${uid}-body`;
 
   // Photo type chips
@@ -780,18 +889,38 @@ function buildCard(r) {
   const cropOk   = r.cropping === 'good';
   const cropWarn = r.cropping === 'face_warn';
   const brtOk    = r.brightness === 'perfect';
-  const cropMsg = { good: 'Cropping looks good', face_warn: 'Face slightly cropped — both eyes and mouth visible', cut_off: 'Subject cut off — eyes or mouth not visible', too_tight: 'Crop is too tight — no breathing room', dead_space: 'Too much dead space — crop tighter' };
-  const brtMsg  = { perfect: 'Brightness is well-balanced', too_dark: 'Image is too dark — increase brightness', too_bright: 'Image is too bright / washed out — reduce brightness' };
+  const cropMsg = {
+    good:      'Cropping looks good',
+    face_warn: 'Face slightly cropped — both eyes and mouth visible',
+    cut_off:   'Subject cut off — eyes or mouth not visible',
+    too_tight: 'Crop is too tight — no breathing room',
+    dead_space:'Too much dead space — crop tighter'
+  };
+  const brtMsg = {
+    perfect:    'Brightness is well-balanced',
+    too_dark:   'Image is too dark — increase brightness',
+    too_bright: 'Image is too bright / washed out — reduce brightness'
+  };
+
+  const cropClass  = cropOk ? 'pass' : cropWarn ? 'warn' : 'fail';
+  const cropIcon   = cropOk ? '✅' : cropWarn ? '⚠️' : '❌';
+  const cropPtBadge = !cropOk ? `<span class="pt-badge pt1">1pt</span>` : '';
+
+  const brtClass   = brtOk ? 'pass' : 'fail';
+  const brtIcon    = brtOk ? '✅' : '❌';
+  const brtPtBadge = !brtOk ? `<span class="pt-badge pt1">1pt</span>` : '';
 
   const editingChecks = `
     <div class="checks">
-      <div class="check ${cropOk ? 'pass' : cropWarn ? 'warn' : 'fail'}">
-        <span class="check-icon">${cropOk ? '✅' : cropWarn ? '⚠️' : '❌'}</span>
+      <div class="check ${cropClass}">
+        <span class="check-icon">${cropIcon}</span>
         <span class="check-label">${cropMsg[r.cropping] || r.cropping}</span>
+        ${cropPtBadge}
       </div>
-      <div class="check ${brtOk ? 'pass' : 'fail'}">
-        <span class="check-icon">${brtOk ? '✅' : '❌'}</span>
+      <div class="check ${brtClass}">
+        <span class="check-icon">${brtIcon}</span>
         <span class="check-label">${brtMsg[r.brightness] || r.brightness}</span>
+        ${brtPtBadge}
       </div>
     </div>`;
 
@@ -799,16 +928,18 @@ function buildCard(r) {
   let aiSection = '';
   if (r.appears_ai_generated) {
     const ai = r.ai_issues || {};
-    const aiChecks = [
-      ['blurred_logo',         'Logo is clear and readable'],
-      ['jumbled_text',         'Text is legible and readable'],
-      ['duplicate_people',     'No duplicate faces in the image'],
-      ['logo_spammed',         'Logo used appropriately (not spammed)'],
-      ['inconsistent_likeness','AI likeness matches real rep'],
-    ].map(([k, lbl]) => `
+    const aiDefs = [
+      ['distorted_logo',    'Logo is undistorted (not AI-warped)', 3],
+      ['jumbled_text',      'Text is legible and readable',        3],
+      ['duplicate_people',  'No duplicate faces in the image',     3],
+      ['logo_spammed',      'Logo used ≤2 times in creative',      3],
+      ['generic_ai_face',   'AI likeness matches real company rep', 3],
+    ];
+    const aiChecks = aiDefs.map(([k, lbl, pts]) => `
       <div class="check ${ai[k] ? 'fail' : 'pass'}">
         <span class="check-icon">${ai[k] ? '❌' : '✅'}</span>
         <span class="check-label">${lbl}</span>
+        ${ai[k] ? `<span class="pt-badge pt3">${pts}pt</span>` : ''}
       </div>`).join('');
     aiSection = `
       <div class="ai-block">
@@ -821,32 +952,34 @@ function buildCard(r) {
   let violationsSection = '';
   const violations = r.format_rule_violations || [];
   if (violations.length) {
+    const items = violations.map(v =>
+      `<div class="flag-item"><span>⚠️</span><span>${v}</span><span class="pt-badge pt1" style="margin-left:auto">1pt</span></div>`
+    ).join('');
     violationsSection = `
-      <div class="error-block">
-        <div class="error-block-title">Format Rule Violations</div>
-        ${violations.map(v => `<div class="error-item"><span>❌</span><span>${v}</span></div>`).join('')}
+      <div class="flag-block">
+        <div class="flag-block-title">Format Rule Violations</div>
+        ${items}
       </div>`;
   }
 
-  // Rejection reasons
+  // Rejection reasons (for denied creatives)
   let reasonsSection = '';
   const reasons = r.rejection_reasons || [];
-  if (reasons.length) {
+  if (reasons.length && !r.approved) {
     reasonsSection = `
       <div class="error-block">
-        <div class="error-block-title">🚫 Rejection Reasons</div>
+        <div class="error-block-title">🚫 Denial Reasons</div>
         ${reasons.map(rr => `<div class="error-item"><span>•</span><span>${rr}</span></div>`).join('')}
       </div>`;
   }
 
-  // Error blocks first if denied
-  const errBlocks = violationsSection + reasonsSection;
+  const issueBlocks = reasonsSection + violationsSection;
 
   body.innerHTML = `
     <div class="card-content">
       <div class="card-thumb"><img src="${r._url}" alt="${r._name}"></div>
       <div class="card-info">
-        ${!ok && errBlocks ? errBlocks : ''}
+        ${issueBlocks}
         <div class="info-grid">
           <div class="info-k">Format</div>
           <div class="info-v">${fmtLabel(r.format)}</div>
@@ -856,7 +989,6 @@ function buildCard(r) {
         <hr class="rule">
         ${editingChecks}
         ${aiSection}
-        ${ok && errBlocks ? errBlocks : ''}
         ${r.notes ? `<div class="notes-box">💬 ${r.notes}</div>` : ''}
       </div>
     </div>`;
