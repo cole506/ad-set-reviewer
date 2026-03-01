@@ -20,11 +20,11 @@ For each panel, identify the types used (list all that apply):
 
 ## STEP 3 — EDITING QUALITY
 Cropping:
-- "good" → subject fully visible, space on all 4 sides, no wasted space
+- "good" → subject fully visible, clear space/margin on all 4 sides between subject and frame edge (0pts)
 - "face_warn" → face is partially out of frame BUT both eyes AND mouth are clearly visible (1pt issue, do NOT deny the creative)
-- "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off (1pt issue)
-- "too_tight" → crop is so close there is zero breathing room (1pt issue)
-- "dead_space" → large areas of wasted/empty space that should be cropped (1pt issue)
+- "dead_space" → large areas of wasted/empty space that should be cropped out (1pt issue)
+- "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off at the edge (2pt issue)
+- "too_tight" → subject fills the frame with little or no margin between the subject and the frame edges — even if nothing is technically cut off, there is no breathing room (2pt issue). Pay close attention to any photo where a house or roof is the subject — both aerial/drone shots AND ground-level photos of homes frequently have the house filling the entire frame with no sky, lawn, or side space visible. These should be flagged as too_tight.
 
 Brightness:
 - "perfect" → well-balanced, details are clear
@@ -49,7 +49,8 @@ Does this image appear AI-generated? If so, check each of the following:
 Write ALL format_rule_violations as short, plain English sentences. Do NOT use code-style keys like "same_type_pairing" or "missing_brand_in_trifold". Write it like you're explaining it to someone learning English — simple, direct, and specific about what the problem is and what to fix. Example: "Both photos are Service photos. Use one Service and one Trust photo instead."
 
 - 3pt issues (auto-deny the individual creative): distorted_logo, jumbled_text, duplicate_people, logo_spammed, generic_ai_face
-- 1pt issues (flag the creative, do not auto-deny): bad cropping (any non-good value), bad brightness, any format rule violation
+- 2pt issues (flag the creative): cut_off crop, too_tight crop
+- 1pt issues (flag the creative): face_warn crop, dead_space crop, bad brightness, any format rule violation
 
 ## SCORING INSTRUCTIONS
 Calculate issue_points for this creative by summing all issues found:
@@ -150,7 +151,13 @@ module.exports = async function handler(req, res) {
     const THREE_PT_ISSUES = ["distorted_logo", "jumbled_text", "duplicate_people", "logo_spammed", "generic_ai_face"];
     THREE_PT_ISSUES.forEach(k => { if (ai[k]) points += 3; });
 
-    if (result.cropping && result.cropping !== "good") points += 1;
+    if (result.cropping && result.cropping !== 'good') {
+      if (result.cropping === 'cut_off' || result.cropping === 'too_tight') {
+        points += 2;
+      } else {
+        points += 1; // face_warn, dead_space
+      }
+    }
     if (result.brightness && result.brightness !== "perfect") points += 1;
     if (result.format_rule_violations && result.format_rule_violations.length > 0) {
       points += result.format_rule_violations.length;
