@@ -32,7 +32,7 @@ body {
   min-height: 100vh;
 }
 
-/* ââ Layout âââââââââââââââââââââââââââââââ */
+/* ── Layout ─────────────────────────────── */
 .shell { display: flex; min-height: 100vh; }
 
 .sidebar {
@@ -56,7 +56,7 @@ body {
   max-width: 1160px;
 }
 
-/* ââ Sidebar ââââââââââââââââââââââââââââââ */
+/* ── Sidebar ────────────────────────────── */
 .logo { font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
 .logo em { color: var(--orange); font-style: normal; }
 .logo-sub { font-size: 11px; color: var(--muted); margin-top: 3px; letter-spacing: .5px; text-transform: uppercase; }
@@ -82,14 +82,14 @@ body {
   line-height: 1.4;
 }
 .sb-list li::before {
-  content: "â";
+  content: "–";
   color: var(--orange);
   font-size: 10px;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-/* ââ Page Header ââââââââââââââââââââââââââ */
+/* ── Page Header ────────────────────────── */
 .page-header { margin-bottom: 36px; }
 .page-title {
   font-size: 34px;
@@ -101,7 +101,7 @@ body {
 .page-title em { color: var(--orange); font-style: normal; }
 .page-sub { font-size: 14px; color: var(--muted); }
 
-/* ââ Upload Zone ââââââââââââââââââââââââââ */
+/* ── Upload Zone ────────────────────────── */
 .upload-zone {
   border: 2px dashed var(--border);
   border-radius: 16px;
@@ -118,7 +118,7 @@ body {
 .upload-hint { font-size: 13px; color: var(--muted); line-height: 1.5; }
 #file-input { display: none; }
 
-/* ââ Status Bar âââââââââââââââââââââââââââ */
+/* ── Status Bar ─────────────────────────── */
 .status {
   display: flex;
   align-items: center;
@@ -134,7 +134,7 @@ body {
 .status.warn   { background: #1c1200; border: 1px solid var(--yellow); color: #fde68a; }
 .status.over   { background: #1c0d00; border: 1px solid var(--orange); color: #fdba74; }
 
-/* ââ Preview Grid âââââââââââââââââââââââââ */
+/* ── Preview Grid ───────────────────────── */
 .preview-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -162,7 +162,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* ââ Analyze Button âââââââââââââââââââââââ */
+/* ── Analyze Button ─────────────────────── */
 .cta-wrap { display: flex; justify-content: center; margin-bottom: 36px; }
 .cta-btn {
   background: linear-gradient(135deg, var(--orange), var(--orange2));
@@ -181,13 +181,13 @@ body {
 .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(249,115,22,.45); }
 .cta-btn:disabled { opacity: .45; transform: none; cursor: not-allowed; }
 
-/* ââ Progress âââââââââââââââââââââââââââââ */
+/* ── Progress ───────────────────────────── */
 .prog-wrap { margin-bottom: 28px; display: none; }
 .prog-label { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
 .prog-track { height: 5px; background: var(--bg4); border-radius: 99px; overflow: hidden; }
 .prog-fill  { height: 100%; width: 0%; background: linear-gradient(90deg, var(--orange), var(--yellow)); border-radius: 99px; transition: width .35s; }
 
-/* ââ Verdict ââââââââââââââââââââââââââââââ */
+/* ── Verdict ────────────────────────────── */
 .verdict {
   border-radius: 16px;
   padding: 36px;
@@ -241,7 +241,7 @@ body {
   gap: 10px;
 }
 
-/* ââ Metrics ââââââââââââââââââââââââââââââ */
+/* ── Metrics ────────────────────────────── */
 .metrics {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -266,7 +266,7 @@ body {
 .metric.good .metric-delta { color: var(--green); }
 .metric.bad  .metric-delta { color: var(--red); }
 
-/* ââ Creative Cards âââââââââââââââââââââââ */
+/* ── Creative Cards ─────────────────────── */
 .section-title {
   font-size: 18px;
   font-weight: 800;
@@ -362,9 +362,11 @@ body {
   border-radius: 7px;
 }
 .check.pass { background: rgba(16,185,129,.07); }
+.check.warn { background: rgba(245,158,11,.07); }
 .check.fail { background: rgba(239,68,68,.08); }
 .check-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
 .check-label { color: var(--sub); }
+.check.warn .check-label { color: #fde68a; }
 .check.fail .check-label { color: #fca5a5; }
 
 /* Error blocks */
@@ -423,7 +425,7 @@ body {
 
 .rule { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
 
-/* ââ Responsive âââââââââââââââââââââââââââ */
+/* ── Responsive ─────────────────────────── */
 @media (max-width: 900px) {
   .sidebar { display: none; }
   .content { padding: 28px 20px; }
@@ -441,18 +443,18 @@ body {
   <aside class="sidebar">
     <div>
       <div class="logo">Creative <em>Mastery</em></div>
-      <div class="logo-sub">Ad Set 101 Â· AI Reviewer</div>
+      <div class="logo-sub">Ad Set 101 · AI Reviewer</div>
     </div>
 
     <hr class="sb-rule">
 
     <div>
-      <div class="sb-heading">ð Set Requirements</div>
+      <div class="sb-heading">📋 Set Requirements</div>
       <ul class="sb-list">
         <li>15 total creatives per set</li>
-        <li>5Ã Singles â Trust or Service only</li>
-        <li>5Ã Two-Folds â paired different types</li>
-        <li>5Ã Tri-Folds â Trust + Service + Brand</li>
+        <li>5× Singles — Trust or Service only</li>
+        <li>5× Two-Folds — paired different types</li>
+        <li>5× Tri-Folds — Trust + Service + Brand</li>
         <li>Extra videos allowed (optional)</li>
         <li>Never reuse a creative across sets</li>
       </ul>
@@ -461,7 +463,7 @@ body {
     <hr class="sb-rule">
 
     <div>
-      <div class="sb-heading">ð« Auto-Deny Triggers</div>
+      <div class="sb-heading">🚫 Auto-Deny Triggers</div>
       <ul class="sb-list">
         <li>Blurred or jumbled logo</li>
         <li>Unreadable AI-generated text</li>
@@ -476,11 +478,11 @@ body {
     <hr class="sb-rule">
 
     <div>
-      <div class="sb-heading">ð¸ Photo Types</div>
+      <div class="sb-heading">📸 Photo Types</div>
       <ul class="sb-list">
-        <li><strong style="color:#93c5fd">Trust</strong> â happy person(s), positive feeling</li>
-        <li><strong style="color:#6ee7b7">Service</strong> â roofing/HVAC work, completed or WIP</li>
-        <li><strong style="color:#c4b5fd">Brand</strong> â vehicle, branded clothes, lawn sign</li>
+        <li><strong style="color:#93c5fd">Trust</strong> — happy person(s), positive feeling</li>
+        <li><strong style="color:#6ee7b7">Service</strong> — roofing/HVAC work, completed or WIP</li>
+        <li><strong style="color:#c4b5fd">Brand</strong> — vehicle, branded clothes, lawn sign</li>
       </ul>
     </div>
   </aside>
@@ -489,17 +491,17 @@ body {
   <main class="content">
 
     <div class="page-header">
-      <div class="page-title">ð¯ Ad Set <em>Reviewer</em></div>
-      <div class="page-sub">AI quality control â Creative Mastery | Ad Set 101</div>
+      <div class="page-title">🎯 Ad Set <em>Reviewer</em></div>
+      <div class="page-sub">AI quality control — Creative Mastery | Ad Set 101</div>
     </div>
 
     <!-- Upload -->
     <div class="upload-zone" id="zone">
-      <div class="upload-icon">ð</div>
+      <div class="upload-icon">📁</div>
       <div class="upload-title">Drop your ad set here</div>
       <div class="upload-hint">
-        or click to browse &nbsp;Â·&nbsp; JPG, PNG, WEBP<br>
-        15 creatives required â 5 Singles Â· 5 Two-Folds Â· 5 Tri-Folds
+        or click to browse &nbsp;·&nbsp; JPG, PNG, WEBP<br>
+        15 creatives required — 5 Singles · 5 Two-Folds · 5 Tri-Folds
       </div>
       <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp" multiple>
     </div>
@@ -512,12 +514,12 @@ body {
 
     <!-- Analyze Button -->
     <div class="cta-wrap">
-      <button class="cta-btn" id="analyze-btn">ð&nbsp; Analyze Ad Set</button>
+      <button class="cta-btn" id="analyze-btn">🔍&nbsp; Analyze Ad Set</button>
     </div>
 
     <!-- Progress -->
     <div class="prog-wrap" id="prog-wrap">
-      <div class="prog-label" id="prog-label">Analyzingâ¦</div>
+      <div class="prog-label" id="prog-label">Analyzing…</div>
       <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
     </div>
 
@@ -533,7 +535,7 @@ body {
     <div class="metrics" id="metrics"></div>
 
     <!-- Cards heading -->
-    <div class="section-title" id="cards-heading">ð¼ï¸ Creative-by-Creative Review</div>
+    <div class="section-title" id="cards-heading">🖼️ Creative-by-Creative Review</div>
 
     <!-- Creative Cards -->
     <div id="cards"></div>
@@ -542,10 +544,10 @@ body {
 </div>
 
 <script>
-// ââ State âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── State ─────────────────────────────────────────────────────────────────────
 let files = [];
 
-// ââ DOM refs ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── DOM refs ──────────────────────────────────────────────────────────────────
 const zone        = document.getElementById('zone');
 const fileInput   = document.getElementById('file-input');
 const statusEl    = document.getElementById('status');
@@ -559,7 +561,7 @@ const metricsEl   = document.getElementById('metrics');
 const cardsEl     = document.getElementById('cards');
 const cardsHead   = document.getElementById('cards-heading');
 
-// ââ Upload ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Upload ────────────────────────────────────────────────────────────────────
 zone.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => load(e.target.files));
 zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
@@ -593,13 +595,13 @@ function renderStatus() {
   statusEl.style.display = 'flex';
   statusEl.className = 'status ' + (n === 15 ? 'ok' : n < 15 ? 'warn' : 'over');
   statusEl.textContent = n === 15
-    ? `â  ${n} creatives uploaded â ready to review`
+    ? `✅  ${n} creatives uploaded — ready to review`
     : n < 15
-    ? `â ï¸  ${n}/15 creatives â need ${15 - n} more to meet set requirements`
-    : `â¹ï¸  ${n} creatives uploaded â ${n - 15} over the 15 required`;
+    ? `⚠️  ${n}/15 creatives — need ${15 - n} more to meet set requirements`
+    : `ℹ️  ${n} creatives uploaded — ${n - 15} over the 15 required`;
 }
 
-// ââ Analyze âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Analyze ───────────────────────────────────────────────────────────────────
 analyzeBtn.addEventListener('click', async () => {
   if (!files.length) return;
 
@@ -614,7 +616,7 @@ analyzeBtn.addEventListener('click', async () => {
 
   for (let i = 0; i < files.length; i++) {
     const f = files[i];
-    progLabel.textContent = `Analyzing ${f.name} (${i + 1} / ${files.length})â¦`;
+    progLabel.textContent = `Analyzing ${f.name} (${i + 1} / ${files.length})…`;
     progFill.style.width  = `${((i + 1) / files.length) * 100}%`;
 
     try {
@@ -670,7 +672,7 @@ function mimeOf(name) {
   return 'image/jpeg';
 }
 
-// ââ Render Results ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Render Results ────────────────────────────────────────────────────────────
 function render(results) {
   const { setWarnings, counts } = validateSet(results);
   const failCount  = results.filter(r => !r.approved).length;
@@ -679,18 +681,18 @@ function render(results) {
 
   // Verdict
   verdictEl.className = 'verdict ' + (allGood ? 'approved' : 'denied');
-  document.getElementById('verdict-icon').textContent  = allGood ? 'â' : 'â';
+  document.getElementById('verdict-icon').textContent  = allGood ? '✅' : '❌';
   document.getElementById('verdict-title').textContent = allGood ? 'AD SET APPROVED' : 'AD SET DENIED';
   document.getElementById('verdict-sub').textContent   = allGood
     ? (setWarnings.length
-        ? `All ${results.length} creatives pass QC â see structure notes below.`
+        ? `All ${results.length} creatives pass QC — see structure notes below.`
         : `All ${results.length} creatives meet Creative Mastery standards. Ready to go live.`)
     : `${failCount} creative${failCount !== 1 ? 's' : ''} failed QC. Fix the issues below before this set goes live.`;
 
   const errBox = document.getElementById('set-errors');
   errBox.innerHTML = '';
   setWarnings.forEach(msg => {
-    errBox.innerHTML += `<div class="set-warn-item"><span>â ï¸</span><span>${msg}</span></div>`;
+    errBox.innerHTML += `<div class="set-warn-item"><span>⚠️</span><span>${msg}</span></div>`;
   });
 
   verdictEl.style.display = 'block';
@@ -709,8 +711,8 @@ function render(results) {
       ? m.val === m.target
       : m.good;
     const delta = m.target !== null
-      ? (m.val - m.target === 0 ? 'â On target' : `${m.val - m.target > 0 ? '+' : ''}${m.val - m.target} vs required`)
-      : (isGood ? 'â All passed' : `${results.length - approved} need fixing`);
+      ? (m.val - m.target === 0 ? '✓ On target' : `${m.val - m.target > 0 ? '+' : ''}${m.val - m.target} vs required`)
+      : (isGood ? '✓ All passed' : `${results.length - approved} need fixing`);
     return `
       <div class="metric ${isGood ? 'good' : 'bad'}">
         <div class="metric-label">${m.label}</div>
@@ -727,18 +729,18 @@ function render(results) {
 }
 
 function validateSet(results) {
-  // These are WARNINGS only â they never block approval
+  // These are WARNINGS only — they never block approval
   const setWarnings = [];
   const counts = { single: 0, two_fold: 0, tri_fold: 0 };
   results.forEach(r => counts[r.format] = (counts[r.format] || 0) + 1);
 
   const n = results.length;
-  if      (n < 15) setWarnings.push(`Set only has ${n} creative${n !== 1 ? 's' : ''} â recommended minimum is 15`);
-  else if (n > 15) setWarnings.push(`Set has ${n} creatives â ${n - 15} over the recommended 15`);
+  if      (n < 15) setWarnings.push(`Set only has ${n} creative${n !== 1 ? 's' : ''} — recommended minimum is 15`);
+  else if (n > 15) setWarnings.push(`Set has ${n} creatives — ${n - 15} over the recommended 15`);
 
-  if ((counts.single   || 0) !== 5) setWarnings.push(`Recommended 5 Singles â found ${counts.single   || 0}`);
-  if ((counts.two_fold || 0) !== 5) setWarnings.push(`Recommended 5 Two-Folds â found ${counts.two_fold || 0}`);
-  if ((counts.tri_fold || 0) !== 5) setWarnings.push(`Recommended 5 Tri-Folds â found ${counts.tri_fold || 0}`);
+  if ((counts.single   || 0) !== 5) setWarnings.push(`Recommended 5 Singles — found ${counts.single   || 0}`);
+  if ((counts.two_fold || 0) !== 5) setWarnings.push(`Recommended 5 Two-Folds — found ${counts.two_fold || 0}`);
+  if ((counts.tri_fold || 0) !== 5) setWarnings.push(`Recommended 5 Tri-Folds — found ${counts.tri_fold || 0}`);
 
   return { setWarnings, counts };
 }
@@ -762,7 +764,7 @@ function buildCard(r) {
       <span class="card-filename">${r._name}</span>
       <span class="card-fmt">${fmtLabel(r.format)}</span>
     </div>
-    <span class="card-chevron ${!ok ? 'open' : ''}" id="${uid}-chev">â¶</span>`;
+    <span class="card-chevron ${!ok ? 'open' : ''}" id="${uid}-chev">▶</span>`;
 
   // Body
   const body = document.createElement('div');
@@ -775,19 +777,20 @@ function buildCard(r) {
   ).join('') || '<span style="color:var(--muted)">Unknown</span>';
 
   // Editing checks
-  const cropOk = r.cropping  === 'good';
-  const brtOk  = r.brightness === 'perfect';
-  const cropMsg = { good: 'Cropping looks good', cut_off: 'Subject is cut off at the edges', too_tight: 'Crop is too tight â no breathing room', dead_space: 'Too much dead space â crop tighter' };
-  const brtMsg  = { perfect: 'Brightness is well-balanced', too_dark: 'Image is too dark â increase brightness', too_bright: 'Image is too bright / washed out â reduce brightness' };
+  const cropOk   = r.cropping === 'good';
+  const cropWarn = r.cropping === 'face_warn';
+  const brtOk    = r.brightness === 'perfect';
+  const cropMsg = { good: 'Cropping looks good', face_warn: 'Face slightly cropped — both eyes and mouth visible', cut_off: 'Subject cut off — eyes or mouth not visible', too_tight: 'Crop is too tight — no breathing room', dead_space: 'Too much dead space — crop tighter' };
+  const brtMsg  = { perfect: 'Brightness is well-balanced', too_dark: 'Image is too dark — increase brightness', too_bright: 'Image is too bright / washed out — reduce brightness' };
 
   const editingChecks = `
     <div class="checks">
-      <div class="check ${cropOk ? 'pass' : 'fail'}">
-        <span class="check-icon">${cropOk ? 'â' : 'â'}</span>
+      <div class="check ${cropOk ? 'pass' : cropWarn ? 'warn' : 'fail'}">
+        <span class="check-icon">${cropOk ? '✅' : cropWarn ? '⚠️' : '❌'}</span>
         <span class="check-label">${cropMsg[r.cropping] || r.cropping}</span>
       </div>
       <div class="check ${brtOk ? 'pass' : 'fail'}">
-        <span class="check-icon">${brtOk ? 'â' : 'â'}</span>
+        <span class="check-icon">${brtOk ? '✅' : '❌'}</span>
         <span class="check-label">${brtMsg[r.brightness] || r.brightness}</span>
       </div>
     </div>`;
@@ -804,12 +807,12 @@ function buildCard(r) {
       ['inconsistent_likeness','AI likeness matches real rep'],
     ].map(([k, lbl]) => `
       <div class="check ${ai[k] ? 'fail' : 'pass'}">
-        <span class="check-icon">${ai[k] ? 'â' : 'â'}</span>
+        <span class="check-icon">${ai[k] ? '❌' : '✅'}</span>
         <span class="check-label">${lbl}</span>
       </div>`).join('');
     aiSection = `
       <div class="ai-block">
-        <div class="ai-block-title">ð¤ AI-Generated â Quality Checks</div>
+        <div class="ai-block-title">🤖 AI-Generated — Quality Checks</div>
         <div class="checks" style="gap:5px">${aiChecks}</div>
       </div>`;
   }
@@ -821,7 +824,7 @@ function buildCard(r) {
     violationsSection = `
       <div class="error-block">
         <div class="error-block-title">Format Rule Violations</div>
-        ${violations.map(v => `<div class="error-item"><span>â</span><span>${v}</span></div>`).join('')}
+        ${violations.map(v => `<div class="error-item"><span>❌</span><span>${v}</span></div>`).join('')}
       </div>`;
   }
 
@@ -831,8 +834,8 @@ function buildCard(r) {
   if (reasons.length) {
     reasonsSection = `
       <div class="error-block">
-        <div class="error-block-title">ð« Rejection Reasons</div>
-        ${reasons.map(rr => `<div class="error-item"><span>â¢</span><span>${rr}</span></div>`).join('')}
+        <div class="error-block-title">🚫 Rejection Reasons</div>
+        ${reasons.map(rr => `<div class="error-item"><span>•</span><span>${rr}</span></div>`).join('')}
       </div>`;
   }
 
@@ -854,7 +857,7 @@ function buildCard(r) {
         ${editingChecks}
         ${aiSection}
         ${ok && errBlocks ? errBlocks : ''}
-        ${r.notes ? `<div class="notes-box">ð¬ ${r.notes}</div>` : ''}
+        ${r.notes ? `<div class="notes-box">💬 ${r.notes}</div>` : ''}
       </div>
     </div>`;
 
