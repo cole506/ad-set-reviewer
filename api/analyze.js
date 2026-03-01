@@ -15,13 +15,14 @@ Identify the layout of this creative:
 ## STEP 2 — PHOTO TYPES PRESENT
 For each panel, identify the types used (list all that apply):
 - "trust": Happy person(s) — conveys positivity and trust (solo, team, roofer+homeowner, happy homeowners)
-- "service": Roofing or HVAC work — completed (ideal) or in progress
+- "service": Roofing or HVAC work — completed (ideal) or in progress, OR any photo of a house exterior where the roof is clearly visible (even without workers present)
 - "brand": Company branding — vehicle, branded clothing, or lawn signs
 
 ## STEP 3 — EDITING QUALITY
 Cropping:
 - "good" → subject fully visible, space on all 4 sides, no wasted space
-- "cut_off" → part of the subject or person is cut off at the edges
+- "face_warn" → face is partially out of frame BUT both eyes AND mouth are clearly visible (issue a warning, do NOT deny)
+- "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off (deny)
 - "too_tight" → crop is so close there is zero breathing room
 - "dead_space" → large areas of wasted/empty space that should be cropped
 
@@ -48,7 +49,7 @@ Return ONLY raw JSON — no markdown, no backticks, no explanation:
 {
   "format": "single" | "two_fold" | "tri_fold",
   "photo_types": ["trust","service","brand"],
-  "cropping": "good" | "cut_off" | "too_tight" | "dead_space",
+  "cropping": "good" | "face_warn" | "cut_off" | "too_tight" | "dead_space",
   "brightness": "perfect" | "too_dark" | "too_bright",
   "appears_ai_generated": true | false,
   "ai_issues": {
