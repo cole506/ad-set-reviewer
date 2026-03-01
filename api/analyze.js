@@ -42,10 +42,12 @@ Does this image appear AI-generated? If so, check each of the following:
 
 ## STEP 5 — FORMAT RULE CHECK
 - Single: MUST include at least Trust or Service. Brand elements are ALLOWED in a Single as long as Trust is ALSO present (e.g., a branded vehicle with a happy rep = OK). A Single that contains ONLY Brand with NO Trust and NO Service is a violation (1pt issue).
-- Two-fold: SHOULD pair different photo types — same type pairing (e.g., Trust + Trust) is a 1pt issue.
+- Two-fold: The two photos SHOULD be different types. If both photos are the same type, write the violation as plain English like: "Both photos are Service photos. A Two-Fold should mix two different types — for example, one Service photo and one Trust photo." Adjust the type name based on what you actually see.
 - Tri-fold: Ideally includes a mix of Trust, Service, and Brand — but Brand is NOT required. Missing Brand is NOT a violation. Only flag if Trust AND Service are both missing.
 
-## POINT VALUES SUMMARY
+## IMPORTANT — HOW TO WRITE VIOLATIONS
+Write ALL format_rule_violations as short, plain English sentences. Do NOT use code-style keys like "same_type_pairing" or "missing_brand_in_trifold". Write it like you're explaining it to someone learning English — simple, direct, and specific about what the problem is and what to fix. Example: "Both photos are Service photos. Use one Service and one Trust photo instead."
+
 - 3pt issues (auto-deny the individual creative): distorted_logo, jumbled_text, duplicate_people, logo_spammed, generic_ai_face
 - 1pt issues (flag the creative, do not auto-deny): bad cropping (any non-good value), bad brightness, any format rule violation
 
