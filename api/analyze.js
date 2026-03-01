@@ -26,7 +26,7 @@ Cropping:
 - "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off at the edge (2pt issue)
 - "too_tight" → subject fills the frame with little or no margin between the subject and the frame edges (2pt issue). Use these two rules based on whether a person is in the photo:
   - IF A PERSON IS IN THE FRAME: Judge the crop by the person. If the person has breathing room around them and is not pushed against the edges, the crop is fine — even if the roof or house fills the rest of the frame. Only flag if the person themselves is cramped against the edges.
-  - IF NO PERSON IS IN THE FRAME: Judge by whether the subject (house, roof, vehicle, etc.) has surrounding context visible. If you can see sky, trees, lawn, or any surrounding environment on at least 2 sides, the crop is fine. If the subject runs to the edges on 3 or 4 sides with no surrounding context, flag as too_tight.
+  - IF NO PERSON IS IN THE FRAME: You must be strict. Look at all 4 edges of the photo. If the house, roof, or main subject touches or nearly touches the frame edge on 3 or more sides — flag it as too_tight, even if nothing is technically cut off. A correctly cropped house photo should have visible sky above, lawn or driveway below, and open space on the sides. An aerial drone shot where the house fills the entire frame with no lawn or surroundings visible is a clear too_tight example and must be flagged.
 
 Brightness:
 - "perfect" → well-balanced, details are clear
