@@ -24,7 +24,7 @@ Cropping:
 - "face_warn" → face is partially out of frame BUT both eyes AND mouth are clearly visible (1pt issue, do NOT deny the creative)
 - "dead_space" → large areas of wasted/empty space that should be cropped out (1pt issue)
 - "cut_off" → face is cropped so that eyes OR mouth are hidden, OR a non-face subject is significantly cut off at the edge (2pt issue)
-- "too_tight" → subject fills the frame with little or no margin between the subject and the frame edges — even if nothing is technically cut off, there is no breathing room (2pt issue). Pay close attention to any photo where a house or roof is the subject — both aerial/drone shots AND ground-level photos of homes frequently have the house filling the entire frame with no sky, lawn, or side space visible. These should be flagged as too_tight.
+- "too_tight" → subject fills the frame with little or no margin between the subject and the frame edges — even if nothing is technically cut off, there is no breathing room (2pt issue). For photos of houses or roofs: flag as too_tight only if the building structure itself (walls, roofline, edges of the house) runs right to the frame edge with no surrounding space. Do NOT flag action shots where a roofer is working on a roof surface that fills the frame — the roof surface is the background, not the subject. The subject in those cases is the worker, and if the worker has space around them, the crop is fine.
 
 Brightness:
 - "perfect" → well-balanced, details are clear
